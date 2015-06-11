@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 /**
  * Мой первый сервлет
@@ -32,6 +33,19 @@ public class MyServlet extends HttpServlet {
                          HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter writer = response.getWriter();
+
+        // Вывод всех параметров
+        Map<String, String[]> params = request.getParameterMap();
+        double sumAll = 0;
+        for (String key : params.keySet())
+            for (String value : params.get(key)) {
+                writer.println(key + " = " + value + "<br>");
+                sumAll += Double.parseDouble(value);
+            }
+        writer.println("Сумма = " + sumAll + "<br><hr>");
+
+        writer.println("c = " + request.getParameter("c"));
+
         String as = request.getParameter("a");
         if (as == null) {
             writer.println("Задайте параметр a");
